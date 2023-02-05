@@ -1,8 +1,13 @@
-from . import main, crypto
+from . import crypto
 import json, random, os
 
 
-def entry(person=""):
+def initialize(person) -> None:
+    pass
+
+def entry(person) -> None:
+    if person == "":
+        person = input("Enter handle ...\n")
     # check person
     hash_val = crypto.get_hash(person)
     with open("/Users/a2/.cache/database/data/files.json", "r") as f:
@@ -25,3 +30,9 @@ def entry(person=""):
             json.dump(dd, f)
         files_path = f"/Users/a2/.crypted/database/bin/{temp_name}.json"
     # take input
+
+
+
+
+# TODO
+# add support for calling other apis for information retrieval

@@ -1,5 +1,7 @@
-from . import main
 from Crypto.Hash import BLAKE2b
+from Crypto.PublicKey import RSA
+from Crypto.Random import get_random_bytes
+from Crypto.Cipher import AES, PKCS1_OAEP
 
 import os
 
@@ -13,11 +15,32 @@ def get_hash(handle):
     return hash_value.hexdigest()
      
 
-def encrypt(data, key):
-    pass
+def encrypt(data, key, outfile) -> bytearray: # encrypted with public key
+    session_key = get_random_bytes(16)
 
-def decrypt(data, key):
-    pass
+    # Encrypt the session key with the public RSA key
+    cipher_rsa = PKCS1_OAEP.new(key)
+    enc_session_key = cipher_rsa.encrypt(session_key)
+    # Encrypt the data with the AES session key
+    cipher_aes = AES.new(session_key, AES.MODE_EAX)
+    ciphertext, tag = cipher_aes.encrypt_and_digest(data)   
+    file_out = open(outfile, "wb")
+    [ file_out.write(x) for x in (enc_session_key, cipher_aes.nonce, tag, ciphertext) ]
+    file_out.close()
+    return bytearray([])
+
+def decrypt(data, key) -> None:
+    enc_session_key, nonce, tag, ciphertext = [ data for x in (key.size_in_bytes(), 16, 16, -1) ]
+
+    # Decrypt the session key with the private RSA key
+    cipher_rsa = PKCS1_OAEP.new(key)
+    session_key = cipher_rsa.decrypt(enc_session_key)
+
+    # Decrypt the data with the AES session key
+    cipher_aes = AES.new(session_key, AES.MODE_EAX, nonce)
+    data = cipher_aes.decrypt_and_verify(ciphertext, tag)
+    print(data.decode("utf-8"))
+
 
 def get_private_key():
     # check file on drive

@@ -1,10 +1,12 @@
-db 
+man db 
 
 -> change Mode: chmod %modname
 -> entry: entry %handle -f %pathoffile
 -f: filename, -q: quick memo after tag, 
 
 
-
+-> errinfo for getting errors
 
 % for a variable
+
+there will be support for calling some web crawlers
