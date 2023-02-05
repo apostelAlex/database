@@ -15,7 +15,7 @@ def get_hash(handle):
     return hash_value.hexdigest()
      
 
-def encrypt(data, key, outfile) -> bytearray: # encrypted with public key
+def encrypt(data, key, outfile) -> None: # encrypted with public key
     session_key = get_random_bytes(16)
 
     # Encrypt the session key with the public RSA key
@@ -27,7 +27,6 @@ def encrypt(data, key, outfile) -> bytearray: # encrypted with public key
     file_out = open(outfile, "wb")
     [ file_out.write(x) for x in (enc_session_key, cipher_aes.nonce, tag, ciphertext) ]
     file_out.close()
-    return bytearray([])
 
 def decrypt(data, key) -> None:
     enc_session_key, nonce, tag, ciphertext = [ data for x in (key.size_in_bytes(), 16, 16, -1) ]
