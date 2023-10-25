@@ -1,4 +1,4 @@
-from . import crypto, error
+import crypto, error
 import json, time
 
 def get_data(person:str) -> None:  # possibly -> str

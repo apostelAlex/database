@@ -1,4 +1,4 @@
-from . import entry, error, crypto, get, login
+import entry, error, crypto, get, login
 import time
 
 # cache/db/data/files.json -> hashes for file data
@@ -15,7 +15,7 @@ def handler(enc_key):
 
     args = inn.split(" ")
     if args[0].lower() == "entry":
-        if len(args)==4:
+        if len(args)>=4:
             entry.entry(args.pop(0))
         else:
             error.report_issue(f"Wrong Syntax in entry call: {time.time()}\n")

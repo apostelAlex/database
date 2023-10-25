@@ -1,11 +1,16 @@
-from . import error
+import error
 import time, sys
 from getpass import getpass
 
 
 def check_login() -> None:
-    with open("/Users/a2/.crypted/logs/pw.txt", "r") as f:
-        t = int(f.read())
+    try:
+        with open("/Users/a2/.crypted/logs/pw.txt", "r") as f:
+            t = int(f.read())
+    except ValueError as V:
+        print(V)
+        # no entry
+        return
     if t != "":
         now = int(time.time())
         # cooldown

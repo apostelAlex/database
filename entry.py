@@ -1,4 +1,4 @@
-from . import crypto
+import crypto
 import json, random, os
 
 
@@ -9,7 +9,7 @@ def entry(person) -> None:
     if person == "":
         person = input("Enter handle ...\n")
     # check person
-    hash_val = crypto.get_hash(person)
+    hash_val = crypto.get_hash(person.encode("utf-8"))
     with open("/Users/a2/.cache/database/data/files.json", "r") as f:
         dictionary = json.load(f)
     # check if handle exists in dictionary
